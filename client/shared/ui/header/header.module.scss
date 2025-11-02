@@ -1,0 +1,30 @@
+.wrapper {
+    width: 100%;
+    padding: 30px 35px;
+    box-sizing: border-box;
+    background-color: var(--background-primary);
+    position: sticky;
+}
+
+.headerList {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.headerLink {
+    text-decoration: none;
+    font-size: 24px;
+    color: var(--text-primary);
+
+    &:hover {
+        color: var(--text-secondary);
+    }
+}
+
+.headerLinkActive {
+    color: var(--text-secondary);
+}
