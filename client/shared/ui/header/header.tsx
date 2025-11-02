@@ -10,21 +10,26 @@ export const PageHeader = () => {
     const pathname = usePathname();
 
     return (
-        <div className={cls.wrapper}>
-            <ul className={cls.headerList}>
-                {headerPaths.map(path =>
-                    <li
-                        key={path[0]}
-                        className={cls.headerListItem}
-                    >
-                        <Link
-                            href={path[0]}
-                            className={mergeClasses(cls.headerLink, pathname == path[0] && cls.headerLinkActive)}
+        <header className={cls.wrapper}>
+            <nav>
+                <ul className={cls.headerList}>
+                    {headerPaths.map(path =>
+                        <li
+                            key={path[0]}
+                            className={cls.headerListItem}
                         >
-                            {path[1]}
-                        </Link>
-                    </li>)}
-            </ul>
-        </div>
+                            <Link
+                                href={path[0]}
+                                className={mergeClasses(
+                                    cls.headerLink,
+                                    pathname == path[0] && cls.headerLinkActive
+                                )}
+                            >
+                                {path[1]}
+                            </Link>
+                        </li>)}
+                </ul>
+            </nav>
+        </header>
     );
 }
