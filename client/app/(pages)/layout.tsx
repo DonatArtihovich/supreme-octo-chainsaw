@@ -4,6 +4,7 @@ import { PageFooter } from "@/shared/ui/footer";
 import { PageHeader } from "@/shared/ui/header";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react"
+import cls from './layout.module.scss'
 
 type PageLayoutProps = {
     children: ReactNode,
@@ -15,7 +16,9 @@ export default function PageLayout({ children }: PageLayoutProps) {
     return (
         <>
             {!pathsWithoutHeader.includes(path) && <PageHeader />}
-            {children}
+            <main className={cls.wrapper}>
+                {children}
+            </main>
             {!pathsWithoutFooter.includes(path) && <PageFooter />}
         </>
     )
