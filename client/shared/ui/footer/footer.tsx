@@ -1,9 +1,9 @@
 import Image, { type StaticImageData } from 'next/image'
 import cls from './footer.module.scss'
-import octoImage from '@/assets/images/supreme-octo-chainsaw.png'
-import githubIcon from '@/assets/images/github.png'
-import instagramIcon from '@/assets/images/instagram.png'
-import telegramIcon from '@/assets/images/telegram.png'
+import octoImage from '@/assets/images/supreme-octo-chainsaw.webp'
+import githubIcon from '@/assets/images/github.webp'
+import instagramIcon from '@/assets/images/instagram.webp'
+import telegramIcon from '@/assets/images/telegram.webp'
 import Link from 'next/link'
 import { Path } from '@/shared/const/path'
 

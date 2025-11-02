@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import cls from './profile-pill.module.scss'
-import defaultAvatarIcon from '@/assets/images/default-avatar.png'
+import defaultAvatarIcon from '@/assets/images/default-avatar.webp'
 import { trimText, useAppSelector } from '@/shared/lib';
 import { IUser, userSelector } from '@/entities/user';
 

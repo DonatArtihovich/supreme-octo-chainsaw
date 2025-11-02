@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IUser } from "../model/slice";
 import { type API_PATH, API_URL, IError } from "@/shared/const/api";
 import { fetchJson } from "@/shared/lib/api";
-import defaultAvatar from "@/assets/images/default-avatar.png"
+import defaultAvatar from "@/assets/images/default-avatar.webp"
 
 type RejectValue = {
     code: number;
