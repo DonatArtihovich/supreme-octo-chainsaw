@@ -1,14 +1,17 @@
 :root {
-  --background-primary: #1c4ec1;
-  --background-secondary: #0c2b73;
+  --background-primary: #0c2b73;
+  --background-secondary: #1c4ec1;
+  --background-thirdly: #000000;
 
   --text-primary: #ffffff;
   --text-secondary: #ffea00;
-  --text-header: rgb(227, 219, 219);
+  --text-header: #e3dbdb;
+
+  --border-primary: var(--text-header);
 }
 
 body {
-  background: var(--background-secondary);
+  background: var(--background-primary);
   padding: 0;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;

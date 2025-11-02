@@ -4,7 +4,8 @@ import Link from "next/link";
 import cls from "./header.module.scss"
 import { headerPaths } from "@/shared/const/path";
 import { usePathname } from "next/navigation";
-import { mergeClasses } from "@/shared/lib/classnames";
+import { mergeClasses } from "@/shared/lib";
+import { ProfilePill } from "@/features/user/ui/profile-pill";
 
 export const PageHeader = () => {
     const pathname = usePathname();
@@ -30,6 +31,7 @@ export const PageHeader = () => {
                         </li>)}
                 </ul>
             </nav>
+            <ProfilePill />
         </header>
     );
 }

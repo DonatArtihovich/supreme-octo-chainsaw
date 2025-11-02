@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import cls from './section.module.scss'
-import { mergeClasses } from "@/shared/lib/classnames";
+import { mergeClasses } from "@/shared/lib";
 
 type PageSectionProps = {
     header: string;

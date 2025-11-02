@@ -2,8 +2,11 @@
     width: 100%;
     padding: 30px 35px;
     box-sizing: border-box;
-    background-color: var(--background-primary);
+    background-color: var(--background-secondary);
     position: sticky;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .headerList {
