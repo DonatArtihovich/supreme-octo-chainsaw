@@ -29,3 +29,22 @@
     font-size: 24px;
     width: 120px;
 }
+
+.signButtonsWrapper {
+    display: flex;
+    gap: 20px;
+}
+
+.signButton {
+    background: none;
+    border: none;
+    outline: none;
+
+    font-size: 24px;
+    color: var(--text-primary);
+
+    &:hover {
+        color: var(--text-secondary);
+        cursor: pointer;
+    }
+}
