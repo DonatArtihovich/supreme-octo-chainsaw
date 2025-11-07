@@ -19,8 +19,6 @@ export class UsersService {
     }
 
     await this.prismaService.user.create({ data: user });
-
-    delete (user as Partial<User>).password;
     return user;
   }
 

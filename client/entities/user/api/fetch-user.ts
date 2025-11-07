@@ -1,23 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IUser } from "../model/slice";
-import { type API_PATH, API_URL, IError } from "@/shared/const/api";
+import { IUser, RejectValue } from "../model/slice";
+import { API_REQUEST, API_URL, IError } from "@/shared/const/api";
 import { fetchJson } from "@/shared/lib/api";
 import defaultAvatar from "@/assets/images/default-avatar.webp"
-
-type RejectValue = {
-    code: number;
-    error: IError;
-}
+import { handleError } from "../lib/handle-error";
 
 export const fetchUser = createAsyncThunk<
     IUser,
-    undefined,
+    string | null | undefined,
     { rejectValue: RejectValue | string; }
->('user/fetchUser', async (_, { rejectWithValue }) => {
+>('user/fetchUser', async (accessToken, { rejectWithValue }) => {
     try {
-        const path = API_URL + ('/me' as API_PATH);
+        const path: API_REQUEST = `${API_URL}/auth/me`;
 
-        const response = await fetchJson(path);
+        const response = await fetchJson(path, {}, accessToken);
         const obj: IUser | IError = await response.json();
 
         if (response.status !== 200) {
@@ -34,11 +30,6 @@ export const fetchUser = createAsyncThunk<
 
         return user;
     } catch (e) {
-        const error = e as Error;
-        if (typeof error.message === 'string') {
-            return rejectWithValue(error.message);
-        }
-
-        return rejectWithValue(e as RejectValue);
+        return handleError(e, rejectWithValue);
     }
 })

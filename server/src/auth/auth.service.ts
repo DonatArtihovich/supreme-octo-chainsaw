@@ -14,7 +14,7 @@ export class AuthService {
     async signIn(email: string, pass: string): Promise<{ access_token: string }> {
         const user = await this.usersService.findByEmail(email);
         if (user?.password !== pass) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException('Incorrect password');
         }
 
         const payload = {
@@ -25,7 +25,7 @@ export class AuthService {
         return { access_token: await this.jwtService.signAsync(payload) };
     }
 
-    async signUp(user: SignUpDto) {
-        return this.usersService.create(user);
+    async signUp({ name, email, password }: SignUpDto) {
+        return this.usersService.create({ name, email, password });
     }
 }
