@@ -8,7 +8,6 @@ import {
   HttpStatus,
   NotFoundException,
   Post,
-  Req,
   Request,
   Res,
   UseGuards
@@ -20,6 +19,8 @@ import { AuthGuard } from './auth.guard';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { type Response } from 'express';
+import { COOKIE_TOKEN_KEY, Errors } from './utils/const';
+import { getCookieExpireDate } from './utils/lib';
 
 @Controller('auth')
 export class AuthController {
@@ -35,15 +36,13 @@ export class AuthController {
     const user = await this.usersService.findByEmail(signInDto.email);
 
     if (!user) {
-      throw new BadRequestException('User with this email not exist.')
+      throw new BadRequestException(Errors.EMAIL_NOT_FOUND)
     }
 
     if (signInDto.cookieAllowed) {
-      res.cookie('jwt', access_token, {
+      res.cookie(COOKIE_TOKEN_KEY, access_token, {
         httpOnly: true,
-        expires: signInDto.remember
-          ? new Date(new Date().getTime() + 30 * 60 * 1000)
-          : undefined
+        expires: getCookieExpireDate(signInDto.remember)
       });
 
       return user;
@@ -56,18 +55,16 @@ export class AuthController {
   @Post('signup')
   async signUp(@Body() signUpDto: SignUpDto, @Res({ passthrough: true }) res: Response) {
     if (await this.usersService.findByEmail(signUpDto.email)) {
-      throw new BadRequestException('User with this email already exist.');
+      throw new BadRequestException(Errors.EMAIL_FOUND);
     }
 
     const user = await this.authService.signUp(signUpDto);
     const { access_token } = await this.authService.signIn(user.email, user.password);
 
     if (signUpDto.cookieAllowed) {
-      res.cookie('access_token', access_token, {
+      res.cookie(COOKIE_TOKEN_KEY, access_token, {
         httpOnly: true,
-        expires: signUpDto.remember
-          ? new Date(new Date().getTime() + 30 * 60 * 1000)
-          : undefined
+        expires: getCookieExpireDate(signUpDto.remember)
       });
 
       return user;
@@ -81,7 +78,7 @@ export class AuthController {
   async getMe(@Request() req): Promise<Partial<User>> {
     const user: Partial<User> | null = await this.usersService.findById(req.user.id);
     if (!user) {
-      throw new NotFoundException('Cannot found user with id.');
+      throw new NotFoundException(Errors.ID_NOT_FOUND);
     }
 
     delete user.password;
