@@ -1,24 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IUser } from "../const";
-import { handleError } from "@/shared/lib";
 import { API_REQUEST, API_URL, IError } from "@/shared/const/api";
 import { fetchJson } from "@/shared/lib/api";
 import defaultAvatar from '@/assets/images/default-avatar.webp'
-import { RejectValue } from "@/shared/lib";
+import { IUser } from "../const";
+import { handleError, RejectValue } from "@/shared/lib";
 
-
-export const signUp = createAsyncThunk<
+export const signIn = createAsyncThunk<
     IUser & { access_token?: string; },
-    Pick<IUser, 'name' | 'email'> & { remember: boolean; password: string },
+    Pick<IUser, 'email'> & { remember: boolean; password: string },
     { rejectValue: RejectValue | string }
->('user/signUp', async (userData, { rejectWithValue }) => {
+>('user/signIn', async (userData, { rejectWithValue }) => {
     try {
-        const path: API_REQUEST = `${API_URL}/auth/signup`;
+        const path: API_REQUEST = `${API_URL}/auth/login`;
 
         const res = await fetchJson(path, {
             method: 'POST',
             body: JSON.stringify({
-                name: userData.name,
                 email: userData.email,
                 password: userData.password,
                 remember: userData.remember,

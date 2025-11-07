@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IUser, RejectValue } from "../model/slice";
 import { API_REQUEST, API_URL, IError } from "@/shared/const/api";
 import { fetchJson } from "@/shared/lib/api";
 import defaultAvatar from "@/assets/images/default-avatar.webp"
-import { handleError } from "../lib/handle-error";
+import { IUser } from "../const";
+import { handleError, RejectValue } from "@/shared/lib";
 
 export const fetchUser = createAsyncThunk<
     IUser,

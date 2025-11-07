@@ -1,4 +1,4 @@
 export * from './model/selectors'
-export { type IUser, userSlice } from './model/slice'
-
 export * from './api'
+
+export { userSlice, resetError, resetStatus } from './model/slice'

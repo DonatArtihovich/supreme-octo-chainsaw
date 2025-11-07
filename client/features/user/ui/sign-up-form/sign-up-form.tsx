@@ -4,9 +4,14 @@ import { Form } from "@/widgets/form"
 import { Formik, FormikConfig } from "formik";
 import { initialValues, validationSchema } from "./const";
 import { useAppDispatch, useAppSelector } from "@/shared/lib";
-import { signUp } from "@/entities/user/api/sign-up";
-import { userSelector } from "@/entities/user";
-import { useEffect } from "react";
+import {
+    signUpErrorSelector,
+    signUpStatusSelector,
+    resetError,
+    resetStatus,
+    signUp
+} from "@/entities/user";
+import { ChangeEvent, useCallback, useEffect } from "react";
 
 type FormValues = {
     name: string;
@@ -21,39 +26,47 @@ type SignUpForm = {
 
 export const SignUpForm = ({ closeModal }: SignUpForm) => {
     const dispatch = useAppDispatch();
-    const user = useAppSelector(userSelector);
+    const { isPending, isFulfilled } = useAppSelector(signUpStatusSelector);
+    const signUpError = useAppSelector(signUpErrorSelector);
 
     useEffect(() => {
-        console.log("user: ", user);
-    }, [user]);
+        if (isFulfilled) {
+            dispatch(resetStatus(['signUpStatus']));
+            closeModal();
+        }
+    }, [isFulfilled]);
 
     const onSubmit: FormikConfig<FormValues>['onSubmit'] =
-        (values, { setSubmitting, setValues }) => {
-            setSubmitting(true);
-
+        (values, { setValues }) => {
             dispatch(signUp({
                 name: values.name,
                 email: values.email,
                 password: values.password,
                 remember: true,
             }));
-            console.log('Submitted: ', values);
 
             setValues(initialValues);
-            setSubmitting(false);
-            closeModal();
         }
+
+    const onChange = useCallback((
+        e: ChangeEvent,
+        handleChange: (a: ChangeEvent) => void
+    ) => {
+        handleChange(e);
+        dispatch(resetError(['signUpError']));
+    }, [])
 
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
+            validateOnChange={false}
+            validateOnBlur={false}
             onSubmit={onSubmit}
         >
             {(
                 { values,
                     errors,
-                    isSubmitting,
                     handleSubmit,
                     handleChange,
                 }
@@ -62,13 +75,14 @@ export const SignUpForm = ({ closeModal }: SignUpForm) => {
                     headerText="Sign Up"
                     submitText="Submit"
                     onSubmit={handleSubmit}
-                    isSubmitting={isSubmitting}
+                    isSubmitting={isPending}
+                    error={signUpError}
                 >
                     <TextInput
                         name='name'
                         labelText="Name"
                         value={values.name}
-                        onChange={handleChange}
+                        onChange={(e) => onChange(e, handleChange)}
                         error={errors.name}
                     />
                     <TextInput
@@ -76,21 +90,21 @@ export const SignUpForm = ({ closeModal }: SignUpForm) => {
                         labelText="Email"
                         type='email'
                         value={values.email}
-                        onChange={handleChange}
+                        onChange={(e) => onChange(e, handleChange)}
                         error={errors.email}
                     />
                     <PasswordInput
                         name='password'
                         labelText='Password'
                         value={values.password}
-                        onChange={handleChange}
+                        onChange={(e) => onChange(e, handleChange)}
                         error={errors.password}
                     />
                     <PasswordInput
                         name='passwordConfirm'
                         labelText='Confirm password'
                         value={values.passwordConfirm}
-                        onChange={handleChange}
+                        onChange={(e) => onChange(e, handleChange)}
                         error={errors.passwordConfirm}
                     />
                 </Form>)}

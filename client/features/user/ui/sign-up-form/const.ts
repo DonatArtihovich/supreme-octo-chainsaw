@@ -19,7 +19,7 @@ export const validationSchema = yup.object().shape({
     password: yup
         .string()
         .min(8)
-        .required('Passwords required'),
+        .required('Password required'),
     passwordConfirm: yup
         .string()
         .oneOf([yup.ref('password')], 'Passwords must match.')

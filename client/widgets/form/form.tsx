@@ -7,6 +7,7 @@ type FormProps = {
     children: ReactNode;
     onSubmit: (e?: FormEvent<HTMLFormElement> | undefined) => void;
     isSubmitting: boolean;
+    error?: string;
     headerText?: string;
     submitText?: string;
     className?: string;
@@ -17,6 +18,7 @@ export const Form = ({
     headerText = '',
     submitText = 'Submit',
     isSubmitting,
+    error,
     onSubmit,
     className,
 }: FormProps) => {
@@ -25,6 +27,7 @@ export const Form = ({
             <h3 className={cls.formHeader}>{headerText}</h3>
             <div className={mergeClasses(cls.wrapper, className)}>
                 {children}
+                <p className={cls.errorText}>{error}</p>
             </div>
 
             <FormButton
