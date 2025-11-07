@@ -5,6 +5,7 @@ export const initialValues = {
   email: '',
   password: '',
   passwordConfirm: '',
+  rememberMe: false,
 };
 
 export const validationSchema = yup.object().shape({
@@ -16,4 +17,5 @@ export const validationSchema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Passwords must match.')
     .min(8)
     .required('Password confirm required.'),
+  rememberMe: yup.boolean(),
 });

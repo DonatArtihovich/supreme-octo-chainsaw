@@ -5,6 +5,7 @@ import eyeIcon from '@/assets/images/eye.svg';
 import eyeWithLineIcon from '@/assets/images/eye-with-line.svg';
 
 import cls from './password-input.module.scss';
+import { mergeClasses } from '@/shared/lib';
 
 type PasswordInputProps = {
   name: string;
@@ -13,6 +14,7 @@ type PasswordInputProps = {
   error?: string;
   labelText?: string;
   onSubmit?: FormEventHandler;
+  className?: string;
 };
 
 export const PasswordInput = ({
@@ -22,6 +24,7 @@ export const PasswordInput = ({
   onChange,
   labelText,
   onSubmit,
+  className,
 }: PasswordInputProps) => {
   const [hidden, setHidden] = useState<boolean>(true);
 
@@ -31,7 +34,7 @@ export const PasswordInput = ({
   };
 
   return (
-    <div className={cls.wrapper}>
+    <div className={mergeClasses(cls.wrapper, className)}>
       {labelText && (
         <label htmlFor={name} className={cls.label}>
           {labelText}
@@ -39,6 +42,7 @@ export const PasswordInput = ({
       )}
       <div className={cls.inputWrapper}>
         <input
+          id={name}
           value={value}
           name={name}
           onChange={onChange}
@@ -53,6 +57,7 @@ export const PasswordInput = ({
             src={hidden ? eyeWithLineIcon : eyeIcon}
             alt="Hide password"
             draggable={false}
+            className={cls.image}
           />
         </button>
       </div>

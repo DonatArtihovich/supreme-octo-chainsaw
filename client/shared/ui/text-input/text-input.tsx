@@ -1,6 +1,7 @@
 import { ChangeEventHandler, FormEventHandler, HTMLInputTypeAttribute } from 'react';
 
 import cls from './text-input.module.scss';
+import { mergeClasses } from '@/shared/lib';
 
 type TextInputProps = {
   name: string;
@@ -11,6 +12,7 @@ type TextInputProps = {
   initialValue?: string;
   type?: Extract<HTMLInputTypeAttribute, 'number' | 'email' | 'tel' | 'url' | 'text'>;
   error?: string;
+  className?: string;
 };
 
 export const TextInput = ({
@@ -22,15 +24,17 @@ export const TextInput = ({
   initialValue,
   type = 'text',
   error,
+  className,
 }: TextInputProps) => {
   return (
-    <div className={cls.wrapper}>
+    <div className={mergeClasses(cls.wrapper, className)}>
       {labelText && (
         <label htmlFor={name} className={cls.label}>
           {labelText}
         </label>
       )}
       <input
+        id={name}
         name={name}
         type={type}
         value={value}

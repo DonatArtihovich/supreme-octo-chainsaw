@@ -9,6 +9,7 @@ import { TextInput } from '@/shared/ui/text-input';
 import { Form } from '@/widgets/form';
 
 import { initialValues, validationSchema } from './const';
+import { CheckboxInput } from '@/shared/ui/checkbox-input';
 
 type SignInFormProps = {
   closeModal: () => void;
@@ -17,6 +18,7 @@ type SignInFormProps = {
 type FormValues = {
   email: string;
   password: string;
+  rememberMe: boolean;
 };
 
 export const SignInForm = ({ closeModal }: SignInFormProps) => {
@@ -36,7 +38,7 @@ export const SignInForm = ({ closeModal }: SignInFormProps) => {
       signIn({
         email: values.email,
         password: values.password,
-        remember: true,
+        remember: values.rememberMe,
       }),
     );
 
@@ -56,7 +58,7 @@ export const SignInForm = ({ closeModal }: SignInFormProps) => {
       validateOnBlur={false}
       onSubmit={onSubmit}
     >
-      {({ values, errors, handleSubmit, handleChange }) => (
+      {({ values, errors, handleSubmit, handleChange, setValues }) => (
         <Form
           headerText="Sign In"
           submitText="Submit"
@@ -78,6 +80,12 @@ export const SignInForm = ({ closeModal }: SignInFormProps) => {
             value={values.password}
             onChange={(e) => onChange(e, handleChange)}
             error={errors.password}
+          />
+          <CheckboxInput
+            name="rememberMe"
+            labelText='Remember me'
+            value={values.rememberMe}
+            onChange={(e) => setValues({ ...values, rememberMe: e.target.checked, })}
           />
         </Form>
       )}
