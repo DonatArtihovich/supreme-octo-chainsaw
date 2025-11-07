@@ -1,4 +1,6 @@
 .wrapper {
+  height: 65px;
+  box-sizing: border-box;
   padding: 10px 15px;
   border-radius: 40px;
   background-color: var(--background-primary);
@@ -31,6 +33,7 @@
 }
 
 .signButtonsWrapper {
+  height: 65px;
   display: flex;
   gap: 20px;
 }
