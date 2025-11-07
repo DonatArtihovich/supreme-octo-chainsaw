@@ -1,33 +1,33 @@
 .wrapper {
-    padding: 80px 0 30px;
+  padding: 80px 0 30px;
 }
 
 .footerNav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
 }
 
 .octoImage {
-    width: 100px;
-    height: auto;
-    user-select: none;
+  width: 100px;
+  height: auto;
+  user-select: none;
 }
 
 .footerLinksList {
-    display: flex;
-    gap: 40px;
-    list-style: none;
+  display: flex;
+  gap: 40px;
+  list-style: none;
 }
 
 .footerIcon {
-    width: 60px;
-    height: auto;
-    user-select: none;
+  width: 60px;
+  height: auto;
+  user-select: none;
 }
 
 .footerText {
-    color: #c8c8c8;
-    font-size: 20px;
+  color: #c8c8c8;
+  font-size: 20px;
 }

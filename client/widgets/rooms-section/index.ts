@@ -1,1 +1,1 @@
-export { RoomsSection } from './rooms-section'
+export { RoomsSection } from './rooms-section';

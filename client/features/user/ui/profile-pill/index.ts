@@ -1,1 +1,1 @@
-export { ProfilePill } from './profile-pill'
+export { ProfilePill } from './profile-pill';

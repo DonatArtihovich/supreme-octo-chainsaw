@@ -1,8 +1,8 @@
 export type Path = '/' | '/about';
 
 export const paths: [Path, string][] = [
-    ['/', 'Home'],
-    ['/about', 'About']
+  ['/', 'Home'],
+  ['/about', 'About'],
 ];
 
 export const headerPaths = structuredClone(paths);

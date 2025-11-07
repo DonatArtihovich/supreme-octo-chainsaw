@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import "./globals.scss";
+import './globals.scss';
+
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Supreme Octo Chainsaw",
-  description: "Tabletop game online website!!!",
+  title: 'Supreme Octo Chainsaw',
+  description: 'Tabletop game online website!!!',
 };
 
 export default function RootLayout({
@@ -13,9 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

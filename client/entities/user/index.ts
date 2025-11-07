@@ -1,4 +1,3 @@
-export * from './model/selectors'
-export * from './api'
-
-export { userSlice, resetError, resetStatus } from './model/slice'
+export * from './api';
+export * from './model/selectors';
+export { resetError, resetStatus, userSlice } from './model/slice';

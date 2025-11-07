@@ -1,1 +1,1 @@
-export { DecksSection } from './decks-section'
+export { DecksSection } from './decks-section';

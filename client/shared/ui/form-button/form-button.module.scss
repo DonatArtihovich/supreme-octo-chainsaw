@@ -1,19 +1,19 @@
 .button {
-    width: 100%;
-    padding: 10px 0;
-    background-color: var(--text-secondary);
-    color: var(--text-primary);
-    border: none;
-    border-radius: 50px;
-    font-size: 30px;
+  width: 100%;
+  padding: 10px 0;
+  background-color: var(--text-secondary);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 50px;
+  font-size: 30px;
 
-    &:hover {
-        cursor: pointer;
-        background-color: var(--background-disabled);
-    }
+  &:hover {
+    cursor: pointer;
+    background-color: var(--background-disabled);
+  }
 
-    &:disabled {
-        background-color: var(--background-disabled);
-        cursor: not-allowed;
-    }
+  &:disabled {
+    background-color: var(--background-disabled);
+    cursor: not-allowed;
+  }
 }

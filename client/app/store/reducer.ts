@@ -1,6 +1,7 @@
-import { userSlice } from "@/entities/user/model/slice";
-import { combineReducers } from "@reduxjs/toolkit";
+import { combineReducers } from '@reduxjs/toolkit';
+
+import { userSlice } from '@/entities/user/model/slice';
 
 export const rootReducer = combineReducers({
-    [userSlice.name]: userSlice.reducer,
+  [userSlice.name]: userSlice.reducer,
 });

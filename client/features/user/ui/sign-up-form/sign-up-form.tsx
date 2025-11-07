@@ -1,113 +1,108 @@
-import { PasswordInput } from "@/shared/ui/password-input";
-import { TextInput } from "@/shared/ui/text-input";
-import { Form } from "@/widgets/form"
-import { Formik, FormikConfig } from "formik";
-import { initialValues, validationSchema } from "./const";
-import { useAppDispatch, useAppSelector } from "@/shared/lib";
+import { Formik, FormikConfig } from 'formik';
+import { ChangeEvent, useEffect } from 'react';
+
 import {
-    signUpErrorSelector,
-    signUpStatusSelector,
-    resetError,
-    resetStatus,
-    signUp
-} from "@/entities/user";
-import { ChangeEvent, useCallback, useEffect } from "react";
+  resetError,
+  resetStatus,
+  signUp,
+  signUpErrorSelector,
+  signUpStatusSelector,
+} from '@/entities/user';
+import { useAppDispatch, useAppSelector } from '@/shared/lib';
+import { PasswordInput } from '@/shared/ui/password-input';
+import { TextInput } from '@/shared/ui/text-input';
+import { Form } from '@/widgets/form';
+
+import { initialValues, validationSchema } from './const';
 
 type FormValues = {
-    name: string;
-    email: string;
-    password: string;
-    passwordConfirm: string;
-}
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+};
 
 type SignUpForm = {
-    closeModal: () => void;
-}
+  closeModal: () => void;
+};
 
 export const SignUpForm = ({ closeModal }: SignUpForm) => {
-    const dispatch = useAppDispatch();
-    const { isPending, isFulfilled } = useAppSelector(signUpStatusSelector);
-    const signUpError = useAppSelector(signUpErrorSelector);
+  const dispatch = useAppDispatch();
+  const { isPending, isFulfilled } = useAppSelector(signUpStatusSelector);
+  const signUpError = useAppSelector(signUpErrorSelector);
 
-    useEffect(() => {
-        if (isFulfilled) {
-            dispatch(resetStatus(['signUpStatus']));
-            closeModal();
-        }
-    }, [isFulfilled]);
+  useEffect(() => {
+    if (isFulfilled) {
+      dispatch(resetStatus(['signUpStatus']));
+      closeModal();
+    }
+  }, [isFulfilled, closeModal, dispatch]);
 
-    const onSubmit: FormikConfig<FormValues>['onSubmit'] =
-        (values, { setValues }) => {
-            dispatch(signUp({
-                name: values.name,
-                email: values.email,
-                password: values.password,
-                remember: true,
-            }));
+  const onSubmit: FormikConfig<FormValues>['onSubmit'] = (values, { setValues }) => {
+    dispatch(
+      signUp({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        remember: true,
+      }),
+    );
 
-            setValues(initialValues);
-        }
+    setValues(initialValues);
+  };
 
-    const onChange = useCallback((
-        e: ChangeEvent,
-        handleChange: (a: ChangeEvent) => void
-    ) => {
-        handleChange(e);
-        dispatch(resetError(['signUpError']));
-    }, [])
+  const onChange = (e: ChangeEvent, handleChange: (a: ChangeEvent) => void) => {
+    handleChange(e);
+    dispatch(resetError(['signUpError']));
+  };
 
-    return (
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            validateOnChange={false}
-            validateOnBlur={false}
-            onSubmit={onSubmit}
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      validateOnChange={false}
+      validateOnBlur={false}
+      onSubmit={onSubmit}
+    >
+      {({ values, errors, handleSubmit, handleChange }) => (
+        <Form
+          headerText="Sign Up"
+          submitText="Submit"
+          onSubmit={handleSubmit}
+          isSubmitting={isPending}
+          error={signUpError}
         >
-            {(
-                { values,
-                    errors,
-                    handleSubmit,
-                    handleChange,
-                }
-            ) => (
-                <Form
-                    headerText="Sign Up"
-                    submitText="Submit"
-                    onSubmit={handleSubmit}
-                    isSubmitting={isPending}
-                    error={signUpError}
-                >
-                    <TextInput
-                        name='name'
-                        labelText="Name"
-                        value={values.name}
-                        onChange={(e) => onChange(e, handleChange)}
-                        error={errors.name}
-                    />
-                    <TextInput
-                        name='email'
-                        labelText="Email"
-                        type='email'
-                        value={values.email}
-                        onChange={(e) => onChange(e, handleChange)}
-                        error={errors.email}
-                    />
-                    <PasswordInput
-                        name='password'
-                        labelText='Password'
-                        value={values.password}
-                        onChange={(e) => onChange(e, handleChange)}
-                        error={errors.password}
-                    />
-                    <PasswordInput
-                        name='passwordConfirm'
-                        labelText='Confirm password'
-                        value={values.passwordConfirm}
-                        onChange={(e) => onChange(e, handleChange)}
-                        error={errors.passwordConfirm}
-                    />
-                </Form>)}
-        </Formik>
-    )
-}
+          <TextInput
+            name="name"
+            labelText="Name"
+            value={values.name}
+            onChange={(e) => onChange(e, handleChange)}
+            error={errors.name}
+          />
+          <TextInput
+            name="email"
+            labelText="Email"
+            type="email"
+            value={values.email}
+            onChange={(e) => onChange(e, handleChange)}
+            error={errors.email}
+          />
+          <PasswordInput
+            name="password"
+            labelText="Password"
+            value={values.password}
+            onChange={(e) => onChange(e, handleChange)}
+            error={errors.password}
+          />
+          <PasswordInput
+            name="passwordConfirm"
+            labelText="Confirm password"
+            value={values.passwordConfirm}
+            onChange={(e) => onChange(e, handleChange)}
+            error={errors.passwordConfirm}
+          />
+        </Form>
+      )}
+    </Formik>
+  );
+};

@@ -1,1 +1,1 @@
-export { SignInModal } from './sign-in-modal'
+export { SignInModal } from './sign-in-modal';

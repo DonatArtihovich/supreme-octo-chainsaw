@@ -1,91 +1,86 @@
-import { TextInput } from "@/shared/ui/text-input";
-import { Form } from "@/widgets/form"
-import { Formik, FormikConfig } from "formik";
-import { ChangeEvent, useCallback, useEffect } from "react"
-import { initialValues, validationSchema } from "./const";
-import { PasswordInput } from "@/shared/ui/password-input";
-import { useAppDispatch, useAppSelector } from "@/shared/lib";
-import { signIn, signInErrorSelector, signInStatusSelector } from "@/entities/user";
-import { resetError, resetStatus } from "@/entities/user/model/slice";
+import { Formik, FormikConfig } from 'formik';
+import { ChangeEvent, useEffect } from 'react';
+
+import { signIn, signInErrorSelector, signInStatusSelector } from '@/entities/user';
+import { resetError, resetStatus } from '@/entities/user/model/slice';
+import { useAppDispatch, useAppSelector } from '@/shared/lib';
+import { PasswordInput } from '@/shared/ui/password-input';
+import { TextInput } from '@/shared/ui/text-input';
+import { Form } from '@/widgets/form';
+
+import { initialValues, validationSchema } from './const';
 
 type SignInFormProps = {
-    closeModal: () => void;
-}
+  closeModal: () => void;
+};
 
 type FormValues = {
-    email: string;
-    password: string;
-}
+  email: string;
+  password: string;
+};
 
 export const SignInForm = ({ closeModal }: SignInFormProps) => {
-    const dispatch = useAppDispatch();
-    const { isPending, isFulfilled } = useAppSelector(signInStatusSelector);
-    const signInError = useAppSelector(signInErrorSelector);
+  const dispatch = useAppDispatch();
+  const { isPending, isFulfilled } = useAppSelector(signInStatusSelector);
+  const signInError = useAppSelector(signInErrorSelector);
 
-    useEffect(() => {
-        if (isFulfilled) {
-            resetStatus(['signInStatus']);
-            closeModal();
-        }
-    }, [isFulfilled]);
+  useEffect(() => {
+    if (isFulfilled) {
+      resetStatus(['signInStatus']);
+      closeModal();
+    }
+  }, [isFulfilled, closeModal, dispatch]);
 
-    const onSubmit: FormikConfig<FormValues>['onSubmit'] = useCallback(
-        (values, { setValues }) => {
-            dispatch(signIn({
-                email: values.email,
-                password: values.password,
-                remember: true,
-            }));
+  const onSubmit: FormikConfig<FormValues>['onSubmit'] = (values, { setValues }) => {
+    dispatch(
+      signIn({
+        email: values.email,
+        password: values.password,
+        remember: true,
+      }),
+    );
 
-            setValues(initialValues);
-        }, []);
+    setValues(initialValues);
+  };
 
-    const onChange = useCallback((
-        e: ChangeEvent,
-        handleChange: (a: ChangeEvent) => void
-    ) => {
-        handleChange(e);
-        dispatch(resetError(['signInError']));
-    }, [])
+  const onChange = (e: ChangeEvent, handleChange: (a: ChangeEvent) => void) => {
+    handleChange(e);
+    dispatch(resetError(['signInError']));
+  };
 
-    return (
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            validateOnChange={false}
-            validateOnBlur={false}
-            onSubmit={onSubmit}
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      validateOnChange={false}
+      validateOnBlur={false}
+      onSubmit={onSubmit}
+    >
+      {({ values, errors, handleSubmit, handleChange }) => (
+        <Form
+          headerText="Sign In"
+          submitText="Submit"
+          onSubmit={handleSubmit}
+          isSubmitting={isPending}
+          error={signInError}
         >
-            {(
-                { values,
-                    errors,
-                    handleSubmit,
-                    handleChange,
-                }
-            ) => (
-                <Form
-                    headerText="Sign In"
-                    submitText="Submit"
-                    onSubmit={handleSubmit}
-                    isSubmitting={isPending}
-                    error={signInError}
-                >
-                    <TextInput
-                        name='email'
-                        labelText="Email"
-                        type='email'
-                        value={values.email}
-                        onChange={(e) => onChange(e, handleChange)}
-                        error={errors.email}
-                    />
-                    <PasswordInput
-                        name='password'
-                        labelText='Password'
-                        value={values.password}
-                        onChange={(e) => onChange(e, handleChange)}
-                        error={errors.password}
-                    />
-                </Form>)}
-        </Formik>
-    )
-}
+          <TextInput
+            name="email"
+            labelText="Email"
+            type="email"
+            value={values.email}
+            onChange={(e) => onChange(e, handleChange)}
+            error={errors.email}
+          />
+          <PasswordInput
+            name="password"
+            labelText="Password"
+            value={values.password}
+            onChange={(e) => onChange(e, handleChange)}
+            error={errors.password}
+          />
+        </Form>
+      )}
+    </Formik>
+  );
+};
